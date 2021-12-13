@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.c323FinalProject.colejmetzger.types.Order;
@@ -13,6 +15,7 @@ import com.c323FinalProject.colejmetzger.types.Restaurant;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DatabaseHelper {
 
@@ -32,14 +35,14 @@ public class DatabaseHelper {
             try {
                 db = context.openOrCreateDatabase("db", context.MODE_PRIVATE, null);
                 db.execSQL("CREATE TABLE IF NOT EXISTS Orders " +
-                        "(id integer primary key, restaurant VARCHAR, address VARCHAR, instructions VARCHAR, total integer);");
+                        "(id integer primary key AUTOINCREMENT, restaurant VARCHAR, address VARCHAR, instructions VARCHAR, total integer);");
                 db.execSQL("CREATE TABLE IF NOT EXISTS OrderItems " +
-                        "(id integer primary key, foodName VARCHAR, quantity VARCHAR);");
+                        "(id integer primary key AUTOINCREMENT, foodName VARCHAR, quantity VARCHAR, orderId INTEGER);");
                 db.execSQL("CREATE TABLE IF NOT EXISTS Restaurants " +
-                        "(id integer primary key, name VARCHAR, location VARCHAR, " +
+                        "(id integer primary key AUTOINCREMENT, name VARCHAR, location VARCHAR, " +
                         "imageOne VARCHAR, imageTwo VARCHAR, imageThree VARCHAR);");
                 db.execSQL("CREATE TABLE IF NOT EXISTS Foods " +
-                        "(id integer primary key, name VARCHAR, price integer);");
+                        "(id integer primary key AUTOINCREMENT, name VARCHAR, price integer);");
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -47,11 +50,23 @@ public class DatabaseHelper {
         }
     }
 
-    public void insertOrder(String restarauntName, String address, String instructions, int total) {
+    public static void createInstance(Context ct) {
+        INSTANCE = new DatabaseHelper(ct);
+    }
+
+    public static DatabaseHelper getInstance() {
+        if (INSTANCE == null) {
+            Log.d("asdf", "instance not created yet");
+            return null;
+        }
+        return INSTANCE;
+    }
+
+    public void insertOrder(String restaurantName, String address, String instructions, int total) {
         db = context.openOrCreateDatabase("db", android.content.Context.MODE_PRIVATE, null);
         String baseQuery = String.format(
                 "INSERT INTO Orders (restaurant, address, instructions) VALUES ('%s','%s','%s', %d);",
-                restarauntName, address, instructions, total);
+                restaurantName, address, instructions, total);
         db.execSQL(baseQuery);
         Toast.makeText(context, "Order placed", Toast.LENGTH_LONG).show();
     }
@@ -83,8 +98,24 @@ public class DatabaseHelper {
 
         return lst.toArray(new Order[0]);
     }
+    
+    public Restaurant[] getRecentRestaurants() {
+        Order[] orders = getOrders();
+        Order[] recentOrders = Arrays.copyOfRange(orders, orders.length - 5, orders.length);
+        Restaurant[] allRestaurants = getRestaurants();
+        ArrayList recentRestaurants = new ArrayList<Restaurant>();
 
-    public OrderItem[] getOrders(int orderId) {
+        for (int i = 0; i < recentOrders.length; i++) {
+            for (int j = 0; j < allRestaurants.length; j++) {
+                if (recentOrders[i].getRestaurant().equals(allRestaurants[j].getName())) {
+                    recentRestaurants.add(allRestaurants[j]);
+                }
+            }
+        }
+        return (Restaurant[]) recentRestaurants.toArray(new Restaurant[0]);
+    }
+
+    public OrderItem[] getOrderItems(int toFindOrderId) {
         Cursor query = db.query("OrderItems", null, null, null, null, null, null);
         ArrayList<OrderItem> lst = new ArrayList<OrderItem>();
 
@@ -93,7 +124,8 @@ public class DatabaseHelper {
                 @SuppressLint("Range") String id = query.getString(query.getColumnIndex("id"));
                 @SuppressLint("Range") String foodName = query.getString(query.getColumnIndex("foodName"));
                 @SuppressLint("Range") String quantity = query.getString(query.getColumnIndex("quantity"));
-                lst.add(new OrderItem(Integer.parseInt(id), foodName, Integer.parseInt(quantity)));
+                @SuppressLint("Range") String orderId = query.getString(query.getColumnIndex("quantity"));
+                lst.add(new OrderItem(Integer.parseInt(id), Integer.parseInt(orderId), foodName, Integer.parseInt(quantity)));
             }
         } finally {
             query.close();
@@ -101,7 +133,7 @@ public class DatabaseHelper {
 
         ArrayList<OrderItem> filteredList = new ArrayList<OrderItem>();
         for (int i = 0; i < lst.size(); i++) {
-            if (lst.get(i).getId() == orderId) {
+            if (lst.get(i).getOrderId() == toFindOrderId) {
                 filteredList.add(lst.get(i));
             }
         }

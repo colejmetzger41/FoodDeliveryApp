@@ -1,12 +1,21 @@
 package com.c323FinalProject.colejmetzger.types;
 
 public class OrderItem {
-    int id; String foodName; int quantity;
+    int id, orderId; String foodName; int quantity;
 
-    public OrderItem(int id, String foodName, int quantity) {
+    public OrderItem(int id, int orderId, String foodName, int quantity) {
         this.id = id;
         this.foodName = foodName;
         this.quantity = quantity;
+        this.orderId = orderId;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public int getId() {
