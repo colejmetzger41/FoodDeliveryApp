@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.c323FinalProject.colejmetzger.R;
 import com.c323FinalProject.colejmetzger.adapters.HomeAdapter;
@@ -46,6 +47,18 @@ public class RecentsFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_recents, container, false);
+
+        // temp for cole to test
+        Button myButton = v.findViewById(R.id.to_order_test);
+        myButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .add(R.id.flContent, OrderFragment.class, null)
+                        .commit();
+            }
+        });
+
         recyclerView = v.findViewById(R.id.recent_restaurants_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));

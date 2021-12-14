@@ -18,7 +18,7 @@
         android:id="@+id/fragmentContainerView"
         android:name="com.c323FinalProject.colejmetzger.fragments.RecentsFragment"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="262dp" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"

@@ -10,5 +10,13 @@
         android:id="@+id/recent_restaurants_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        android:orientation="horizontal">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/to_order_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="take me to my order" />
 </FrameLayout>

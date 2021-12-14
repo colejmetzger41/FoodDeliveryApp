@@ -161,4 +161,61 @@ public class DatabaseHelper {
 
         return lst.toArray(new Restaurant[0]);
     }
+
+    public Order getOrderById(int toFindId) {
+        Cursor query = db.query("Orders", null, null, null, null, null, null);
+        ArrayList<Order> lst = new ArrayList<Order>();
+
+        try {
+            while(query.moveToNext()) {
+                @SuppressLint("Range") String id = query.getString(query.getColumnIndex("id"));
+                @SuppressLint("Range") String restaurant = query.getString(query.getColumnIndex("restaurant"));
+                @SuppressLint("Range") String address = query.getString(query.getColumnIndex("address"));
+                @SuppressLint("Range") String instructions = query.getString(query.getColumnIndex("instructions"));
+                @SuppressLint("Range") String total = query.getString(query.getColumnIndex("total"));
+                lst.add(new Order(Integer.parseInt(id), restaurant, address, instructions, Integer.parseInt(total)));
+            }
+        } finally {
+            query.close();
+        }
+
+        for (Order order: lst) {
+            if (order.getId() == toFindId) {
+                return order;
+            }
+        }
+
+        Toast.makeText(context, "Couldn't find order", Toast.LENGTH_LONG).show();
+
+        return null;
+    }
+
+    public Restaurant getRestaurantByName(String toFindName) {
+        Cursor query = db.query("Restaurants", null, null, null, null, null, null);
+        ArrayList<Restaurant> lst = new ArrayList<Restaurant>();
+
+        try {
+            while(query.moveToNext()) {
+                @SuppressLint("Range") String id = query.getString(query.getColumnIndex("id"));
+                @SuppressLint("Range") String name = query.getString(query.getColumnIndex("name"));
+                @SuppressLint("Range") String location = query.getString(query.getColumnIndex("location"));
+                @SuppressLint("Range") String imageOne = query.getString(query.getColumnIndex("imageOne"));
+                @SuppressLint("Range") String imageTwo = query.getString(query.getColumnIndex("imageTwo"));
+                @SuppressLint("Range") String imageThree = query.getString(query.getColumnIndex("imageThree"));
+                lst.add(new Restaurant(Integer.parseInt(id), name, location, imageOne, imageTwo, imageThree));
+            }
+        } finally {
+            query.close();
+        }
+
+        for (Restaurant restaurant: lst) {
+            if (restaurant.getName().equals(toFindName)) {
+                return restaurant;
+            }
+        }
+
+        Toast.makeText(context, "Couldn't restaurant by name", Toast.LENGTH_LONG).show();
+
+        return null;
+    }
 }
