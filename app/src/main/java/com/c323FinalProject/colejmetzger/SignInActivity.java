@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.c323FinalProject.colejmetzger.utilities.DatabaseHelper;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -20,6 +21,9 @@ public class SignInActivity extends AppCompatActivity {
     EditText et_name;
     EditText et_email;
     CircleImageView circleImageView;
+
+    //Database Helper for setup
+    DatabaseHelper databaseHelper;
 
     //On activity result code
     int SELECT_PICTURE = 200;
@@ -34,6 +38,9 @@ public class SignInActivity extends AppCompatActivity {
         et_email = findViewById(R.id.editTextTextEmailAddress);
         circleImageView = findViewById(R.id.profile_image_signin);
 
+        //Setup Database
+        databasePopulationAndSetup();
+
         //Setup circleImageView onclick listener
         //Setting up image selector taken from https://www.geeksforgeeks.org/how-to-select-an-image-from-gallery-in-android/
         circleImageView.setOnClickListener(new View.OnClickListener() {
@@ -45,10 +52,20 @@ public class SignInActivity extends AppCompatActivity {
 
         //Check if user is signed in
         checkSignIn();
+    }
 
+    private void databasePopulationAndSetup() {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
 
-        //Setup Database
+        boolean isDataPopulated = sharedPref.getBoolean("ISDATAPOPULATED", false);
+        if (!(isDataPopulated)) {
+            databaseHelper = new DatabaseHelper(this);
+            databaseHelper.populateDB();
+            editor.putBoolean("ISDATAPOPULATED", true);
+        }
 
+        editor.apply();
     }
 
     private void imageSelector() {
@@ -90,6 +107,7 @@ public class SignInActivity extends AppCompatActivity {
         //If user is signed up and also logged in
         if (isSignedUp && isLoggedIn) {
             //Move to next activity if user is already signed up and logged in
+            Toast.makeText(this, "Already Logged In. Proceeded to Home", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
         }

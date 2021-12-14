@@ -9,6 +9,7 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.c323FinalProject.colejmetzger.R;
 import com.c323FinalProject.colejmetzger.types.Order;
 import com.c323FinalProject.colejmetzger.types.OrderItem;
 import com.c323FinalProject.colejmetzger.types.Restaurant;
@@ -16,6 +17,7 @@ import com.c323FinalProject.colejmetzger.types.Restaurant;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class DatabaseHelper {
 
@@ -47,6 +49,23 @@ public class DatabaseHelper {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void populateDB() {
+        db = context.openOrCreateDatabase("db", android.content.Context.MODE_PRIVATE, null);
+        String[] restaurantQueries = context.getResources().getStringArray(R.array.restaurant_populate_queries);
+        String[] orderQueries = context.getResources().getStringArray(R.array.orders_populate_queries);
+        String[] ordersPageQuereies = context.getResources().getStringArray(R.array.orders_page_populate_queries);
+
+        for (int i = 0; i < restaurantQueries.length; i++) {
+            db.execSQL(restaurantQueries[i]);
+        }
+        for (int i = 0; i < orderQueries.length; i++) {
+            db.execSQL(orderQueries[i]);
+        }
+        for (int i = 0; i < ordersPageQuereies.length; i++) {
+            db.execSQL(ordersPageQuereies[i]);
         }
     }
 

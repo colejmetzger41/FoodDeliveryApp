@@ -2,4 +2,77 @@
     <string name="app_name">FinalProject</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="restaurant_populate_queries">
+        <item>
+                INSERT INTO Restaurants (name, location, imageOne, imageTwo, imageThree) VALUES(
+                " 'The Owlery' ",
+                " '118 W 6th St, Bloomington, IN 47404' ",
+                " 'https://images.squarespace-cdn.com/content/v1/609fcc80e77fe90d7e39d93b/1621997004384-P356MDA2I0GA1OSGSC4O/owl_square+copy.jpg?format=1500w' ",
+                " 'http://indianapublicmedia.org/wpimages/eartheats/2012/04/owlery-4.jpg' ",
+                " 'https://images.squarespace-cdn.com/content/v1/5554e631e4b0b9618acee713/1519655972974-R9EJGNSR8K0R6SXHZ5F0/APT_TheOwleryRestaurant01.jpg?format=500w' ");
+        </item>
+        <item>
+                INSERT INTO Restaurants (name, location, imageOne, imageTwo, imageThree)  VALUES(
+                " 'Social Cantina' ",
+                " '125 N College Ave, Bloomington, IN 47404' ",
+                " 'https://media-exp1.licdn.com/dms/image/C561BAQFvpBASusSkpw/company-background_10000/0/1534348657751?e=2159024400&amp;v=beta&amp;t=kCPl9xxjxzpglbSQ83WnT_LSw2Z8XYPgAgeOe5AtEE0' ",
+                " 'https://assets.simpleviewinc.com/simpleview/image/upload/crm/bloomington/SocialCantina_7405_edit0-b7fcec655056a36_b7fcee36-5056-a36a-067e80dfb9a01247.jpg' ",
+                " 'https://media-cdn.tripadvisor.com/media/photo-s/18/b3/11/0c/f987d2c5-1dc4-4e92-af7d.jpg' ");
+        </item>
+        <item>
+                INSERT INTO Restaurants (name, location, imageOne, imageTwo, imageThree) VALUES(
+                " 'The Trojan Horse' ",
+                " '100 E Kirkwood Ave, Bloomington, IN 47408' ",
+                " 'https://pbs.twimg.com/media/C298jUOUEAA4VhA.png' ",
+                " 'https://i.pinimg.com/originals/8b/d0/7f/8bd07f67f2dbe9a3ca86c5687710fc82.jpg' ",
+                " 'https://assets.simpleviewinc.com/simpleview/image/upload/crm/bloomington/TrojanHorse-350-3cae1cca5056a36_3cae1ea0-5056-a36a-06b126aed5ef4011.jpg' ");
+        </item>
+        <item>
+                INSERT INTO Restaurants (name, location, imageOne, imageTwo, imageThree)  VALUES(
+                " 'Bedrak Cafe' ",
+                " '409 S Walnut St, Bloomington, IN 47401' ",
+                " 'https://digitalmarketing.blob.core.windows.net/9938/images/items/image439274.jpg' ",
+                " 'https://lh3.googleusercontent.com/p/AF1QipMA_t63m8_fPI-sF5zab-cpwl4rfXFhKV4VWUAK=s1600-w4032' ",
+                " 'https://s3-media0.fl.yelpcdn.com/bphoto/4OedSmi2oGa1VUfq9Zz53w/l.jpg' ");
+        </item>
+        <item>
+                INSERT INTO Restaurants (name, location, imageOne, imageTwo, imageThree)  VALUES(
+                " 'Yogis' ",
+                " '302 S Walnut St, Bloomington, IN 47404' ",
+                " 'https://fox59.com/wp-content/uploads/sites/21/2019/09/69620993_2949673705045907_4302052149497430016_o.jpg' ",
+                " 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbpmVopmSzu0mFNgemgfbGmC480EhB3LgSfLDHkQVqv5YpQ-L5nZtyBb3GDliGceBimc0&amp;;usqp=CAU' ",
+                " 'https://s3-media0.fl.yelpcdn.com/bphoto/esdtFYyGYE8E3JQXYuJ2lQ/l.jpg' ");
+        </item>
+    </string-array>
+    <string-array name="orders_populate_queries">
+        <item>
+                insert into orders (restaurant, address, instructions, total)
+                VALUES (" 'The Owlery' ", "''", "''", 0);
+        </item>
+        <item>
+                insert into orders (restaurant, address, instructions, total)
+                VALUES (" 'Bedrak Cafe' ", "''", "''", 0);
+        </item>
+        <item>
+                insert into orders (restaurant, address, instructions, total)
+                VALUES (" 'Yogis' ", "''", "''", 0);
+        </item>
+        <item>
+                insert into orders (restaurant, address, instructions, total)
+                VALUES (" 'The Trojan Horse' ", "''", "''", 0);
+        </item>
+        <item>
+                insert into orders (restaurant, address, instructions, total)
+                VALUES (" 'Social Cantina' ", "''", "''", 0);
+        </item>
+    </string-array>
+    <string-array name="orders_page_populate_queries">
+        <item>
+            insert into orderitems (foodname, quantity, orderid) values (" 'burger' ", " '1' ", 6);
+        </item>
+        <item>
+            insert into orders (restaurant, address, instructions, total) values (" 'Yogis' ", " '223 e 8th st' ", " 'n/a' ", 12);
+        </item>
+    </string-array>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
