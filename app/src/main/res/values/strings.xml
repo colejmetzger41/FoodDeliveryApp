@@ -84,6 +84,12 @@
         <item>
             insert into foods (name, price) values(" 'pizza' ", 20);
         </item>
+        <item>
+            insert into foods (name, price) values(" 'icecream' ", 5);
+        </item>
+        <item>
+            insert into foods (name, price) values(" 'noodles' ", 12);
+        </item>
     </string-array>
     <string name="title_activity_maps">MapsActivity</string>
 </resources>
