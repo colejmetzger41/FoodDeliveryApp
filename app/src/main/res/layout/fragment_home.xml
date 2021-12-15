@@ -15,15 +15,13 @@
         android:textSize="24sp" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="com.c323FinalProject.colejmetzger.fragments.RecentsFragment"
+        android:id="@+id/topView"
         android:layout_width="match_parent"
         android:layout_height="262dp" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView2"
-        android:name="com.c323FinalProject.colejmetzger.fragments.AllFragment"
+        android:id="@+id/bottomView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="350dp" />
 
 </LinearLayout>

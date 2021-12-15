@@ -49,15 +49,15 @@ public class RecentsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_recents, container, false);
 
         // temp for cole to test
-        Button myButton = v.findViewById(R.id.to_order_test);
-        myButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .add(R.id.flContent, OrderFragment.class, null)
-                        .commit();
-            }
-        });
+//        Button myButton = v.findViewById(R.id.to_order_test);
+//        myButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .add(R.id.flContent, OrderFragment.class, null)
+//                        .commit();
+//            }
+//        });
 
         recyclerView = v.findViewById(R.id.recent_restaurants_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
