@@ -31,13 +31,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_home, container, false);
-//
-//        getActivity().getSupportFragmentManager().beginTransaction()
-//                .add(R.id.home_recent_layout, RecentsFragment.class, null)
-//                .commit();
-//        getActivity().getSupportFragmentManager().beginTransaction()
-//                .add(R.id.home_all_layout, AllFragment.class, null)
-//                .commit();
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.topView, RecentsFragment.class, null)
+                .commit();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.bottomView, AllFragment.class, null)
+                .commit();
 
         return v;
     }

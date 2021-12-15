@@ -12,13 +12,17 @@
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/fragment_recent_orders.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/fragment_recents.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/fragment_sign_in.xml" value="0.36302083333333335" />
-        <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/row_layout_recent_orders.xml" value="0.36302083333333335" />
+        <entry key="app/src/main/res/layout/fragment_all.xml" value="0.11203703703703703" />
         <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.13489583333333333" />
         <entry key="app/src/main/res/layout/fragment_checkout.xml" value="0.14895833333333333" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.14895833333333333" />
         <entry key="app/src/main/res/layout/fragment_order.xml" value="0.13489583333333333" />
         <entry key="app/src/main/res/layout/fragment_recent_orders.xml" value="0.14895833333333333" />
+        <entry key="app/src/main/res/layout/fragment_recents.xml" value="0.21" />
         <entry key="app/src/main/res/layout/fragment_restaurant.xml" value="0.14895833333333333" />
+        <entry key="app/src/main/res/layout/item_home.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/layout/item_home_all.xml" value="0.22" />
       </map>
     </option>
   </component>
