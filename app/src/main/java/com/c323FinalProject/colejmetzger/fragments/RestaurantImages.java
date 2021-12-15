@@ -3,64 +3,57 @@ package com.c323FinalProject.colejmetzger.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.c323FinalProject.colejmetzger.R;
+import com.c323FinalProject.colejmetzger.adapters.HomeAdapter;
+import com.c323FinalProject.colejmetzger.adapters.RestaurantImagesAdapter;
+import com.c323FinalProject.colejmetzger.types.Restaurant;
+import com.c323FinalProject.colejmetzger.utilities.DatabaseHelper;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RestaurantImages#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class RestaurantImages extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    Restaurant restaurant;
+    RecyclerView recyclerView;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public RestaurantImages(String name) {
+        this.restaurant = getRestaurant(name);
 
-    public RestaurantImages() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RestaurantImages.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RestaurantImages newInstance(String param1, String param2) {
-        RestaurantImages fragment = new RestaurantImages();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    private Restaurant getRestaurant(String name) {
+        return DatabaseHelper.getInstance().getRestaurantByName(name);
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_restaurant_images, container, false);
+        View v = inflater.inflate(R.layout.fragment_restaurant_images, container, false);
+
+        TextView tv = v.findViewById(R.id.restaurant_name_text);
+        tv.setText(restaurant.getName());
+
+        recyclerView = v.findViewById(R.id.restaurant_images_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
+        recyclerView.setAdapter( new RestaurantImagesAdapter(getContext(), restaurant));
+        return v;
     }
 }

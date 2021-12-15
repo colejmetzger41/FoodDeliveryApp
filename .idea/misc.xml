@@ -21,8 +21,10 @@
         <entry key="app/src/main/res/layout/fragment_recent_orders.xml" value="0.14895833333333333" />
         <entry key="app/src/main/res/layout/fragment_recents.xml" value="0.21" />
         <entry key="app/src/main/res/layout/fragment_restaurant.xml" value="0.14895833333333333" />
+        <entry key="app/src/main/res/layout/fragment_restaurant_images.xml" value="0.18854166666666666" />
         <entry key="app/src/main/res/layout/item_home.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/item_home_all.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/restaurant_images_item.xml" value="0.18854166666666666" />
       </map>
     </option>
   </component>

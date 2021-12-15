@@ -24,21 +24,24 @@ import com.c323FinalProject.colejmetzger.fragments.RestaurantFragment;
 import com.c323FinalProject.colejmetzger.fragments.RestaurantImages;
 import com.c323FinalProject.colejmetzger.types.Restaurant;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+public class RestaurantImagesAdapter extends RecyclerView.Adapter<RestaurantImagesAdapter.ViewHolder> {
     Context context;
-    Restaurant[] data;
+    String[] data;
     String type;
 
-    public HomeAdapter(Context context, Restaurant[] data) {
+    public RestaurantImagesAdapter(Context context, Restaurant restaurant) {
         this.context = context;
-        this.data = data;
+        this.data = new String[3];
+        this.data[0] = restaurant.getImageOne();
+        this.data[1] = restaurant.getImageTwo();
+        this.data[2] = restaurant.getImageThree();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView restaurantIcon;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            restaurantIcon = itemView.findViewById(R.id.home_restaurant_icon);
+            restaurantIcon = itemView.findViewById(R.id.restaurant_image);
         }
     }
 
@@ -46,7 +49,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d("asdf", "created one view holder");
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_images_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -57,7 +60,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         RequestQueue queue = Volley.newRequestQueue(context);
 
         //pull row image
-        ImageRequest imageRequest = new ImageRequest (data[holder.getAdapterPosition()].getImageOne(), new Response.Listener<Bitmap>() {
+        ImageRequest imageRequest = new ImageRequest (data[holder.getAdapterPosition()], new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
                 holder.restaurantIcon.setImageBitmap(response);
@@ -70,30 +73,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             }
         });
         queue.add(imageRequest);
-
-        // on click transition to restaurant frag
-        holder.restaurantIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity activityClass = (MainActivity) context;
-
-//                Bundle bundle = new Bundle();
-//                bundle.putString("restaurantId", data[holder.getAdapterPosition()].getName());
-
-                RestaurantImages imagesFrag = new RestaurantImages(data[holder.getAdapterPosition()].getName());
-                RestaurantFragment restaurantFragment = new RestaurantFragment(data[holder.getAdapterPosition()].getName());
-//                imagesFrag.setArguments(bundle);
-//                restaurantFragment.setArguments(bundle);
-
-                activityClass.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.topView, imagesFrag, "restaurant_picture")
-                        .commit();
-
-                activityClass.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.bottomView, restaurantFragment, "restaurant")
-                        .commit();
-            }
-        });
     }
 
     @Override
