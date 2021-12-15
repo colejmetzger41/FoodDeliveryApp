@@ -46,24 +46,24 @@
     </string-array>
     <string-array name="orders_populate_queries">
         <item>
-                insert into orders (restaurant, address, instructions, total)
-                VALUES (" 'The Owlery' ", "''", "''", 0);
+                insert into orders (restaurant, address, instructions, total, date, time)
+                VALUES (" 'The Owlery' ", "''", "''", 0, " '12/15/2021' ", " '12:00' ");
         </item>
         <item>
-                insert into orders (restaurant, address, instructions, total)
-                VALUES (" 'Bedrak Cafe' ", "''", "''", 0);
+                insert into orders (restaurant, address, instructions, total, date, time)
+                VALUES (" 'Bedrak Cafe' ", "''", "''", 0, " '12/14/2021' ", " '13:00' ");
         </item>
         <item>
-                insert into orders (restaurant, address, instructions, total)
-                VALUES (" 'Yogis' ", "''", "''", 0);
+                insert into orders (restaurant, address, instructions, total, date, time)
+                VALUES (" 'Yogis' ", "''", "''", 0, " '12/13/2021' ", " '14:00' ");
         </item>
         <item>
-                insert into orders (restaurant, address, instructions, total)
-                VALUES (" 'The Trojan Horse' ", "''", "''", 0);
+                insert into orders (restaurant, address, instructions, total, date, time)
+                VALUES (" 'The Trojan Horse' ", "''", "''", 0, " '12/12/2021' ", " '15:00' ");
         </item>
         <item>
-                insert into orders (restaurant, address, instructions, total)
-                VALUES (" 'Social Cantina' ", "''", "''", 0);
+                insert into orders (restaurant, address, instructions, total, date, time)
+                VALUES (" 'Social Cantina' ", "''", "''", 0, " '12/12/2021' ", " '15:05' ");
         </item>
     </string-array>
     <string-array name="orders_page_populate_queries">
@@ -71,7 +71,18 @@
             insert into orderitems (foodname, quantity, orderid) values (" 'burger' ", " '1' ", 6);
         </item>
         <item>
-            insert into orders (restaurant, address, instructions, total) values (" 'Yogis' ", " '223 e 8th st' ", " 'n/a' ", 12);
+            insert into orders (restaurant, address, instructions, total, date, time) values (" 'Yogis' ", " '223 e 8th st' ", " 'n/a' ", 12, " '12/15/2021' ", " '13:28' ");
+        </item>
+    </string-array>
+    <string-array name="food_populate_queries">
+        <item>
+            insert into foods (name, price) values(" 'burger' ", 10);
+        </item>
+        <item>
+            insert into foods (name, price) values(" 'fries' ", 3);
+        </item>
+        <item>
+            insert into foods (name, price) values(" 'pizza' ", 20);
         </item>
     </string-array>
     <string name="title_activity_maps">MapsActivity</string>

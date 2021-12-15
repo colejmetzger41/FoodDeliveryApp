@@ -40,20 +40,27 @@ INSERT INTO Restaurants (name, location, imageOne, imageTwo, imageThree)  VALUES
 
 ---------------------------------------------------------------------------
 FOR STARTUP
-insert into orders (restaurant, address, instructions, total)
-VALUES ("The Owlery", "", "", 0);
-insert into orders (restaurant, address, instructions, total)
-VALUES ("Bedrak Cafe", "", "", 0);
-insert into orders (restaurant, address, instructions, total)
-VALUES ("Yogi's", "", "", 0);
-insert into orders (restaurant, address, instructions, total)
-VALUES ("The Trojan Horse", "", "", 0);
-insert into orders (restaurant, address, instructions, total)
-VALUES ("Social Cantina", "", "", 0);
+insert into orders (restaurant, address, instructions, total, date, time)
+VALUES ("The Owlery", "", "", 0, " '12/15/2021' ", " '12:00' ");
+insert into orders (restaurant, address, instructions, total, date, time)
+VALUES ("Bedrak Cafe", "", "", 0, " '12/14/2021' ", " '13:00' ");
+insert into orders (restaurant, address, instructions, total, date, time)
+VALUES ("Yogi's", "", "", 0, " '12/13/2021' ", " '14:00' ");
+insert into orders (restaurant, address, instructions, total, date, time)
+VALUES ("The Trojan Horse", "", "", 0, " '12/12/2021' ", " '15:00' ");
+insert into orders (restaurant, address, instructions, total, date, time)
+VALUES ("Social Cantina", "", "", 0, " '12/12/2021' ", " '15:05' ");
 
 
 
 --------------------------------------------------------------------------------------
 For Orders page
 insert into orderitems (foodname, quantity, orderid) values ("burger", "1", 6);
-insert into orders (restaurant, address, instructions, total) values ("Yogi's", "223 e 8th st", "n/a", 12);
+insert into orders (restaurant, address, instructions, total, date, time) values ("Yogi's", "223 e 8th St Bloomington, IN 47408", "n/a", 12, " '12/15/2021' ", " '13:28' ");
+
+
+--------------------------------------------------------------------------------------
+For Foods
+insert into foods (name, price) values("burger", 10);
+insert into foods (name, price) values("fries", 3);
+insert into foods (name, price) values("pizza", 20);

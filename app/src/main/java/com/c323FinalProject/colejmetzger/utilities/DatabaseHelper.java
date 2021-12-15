@@ -37,7 +37,7 @@ public class DatabaseHelper {
             try {
                 db = context.openOrCreateDatabase("db", context.MODE_PRIVATE, null);
                 db.execSQL("CREATE TABLE IF NOT EXISTS Orders " +
-                        "(id integer primary key AUTOINCREMENT, restaurant VARCHAR, address VARCHAR, instructions VARCHAR, total integer);");
+                        "(id integer primary key AUTOINCREMENT, restaurant VARCHAR, address VARCHAR, instructions VARCHAR, total integer, date VARCHAR, time VARCHAR);");
                 db.execSQL("CREATE TABLE IF NOT EXISTS OrderItems " +
                         "(id integer primary key AUTOINCREMENT, foodName VARCHAR, quantity VARCHAR, orderId INTEGER);");
                 db.execSQL("CREATE TABLE IF NOT EXISTS Restaurants " +
@@ -56,7 +56,8 @@ public class DatabaseHelper {
         db = context.openOrCreateDatabase("db", android.content.Context.MODE_PRIVATE, null);
         String[] restaurantQueries = context.getResources().getStringArray(R.array.restaurant_populate_queries);
         String[] orderQueries = context.getResources().getStringArray(R.array.orders_populate_queries);
-        String[] ordersPageQuereies = context.getResources().getStringArray(R.array.orders_page_populate_queries);
+        String[] ordersPageQueries = context.getResources().getStringArray(R.array.orders_page_populate_queries);
+        String[] foodQueries = context.getResources().getStringArray(R.array.food_populate_queries);
 
         for (int i = 0; i < restaurantQueries.length; i++) {
             db.execSQL(restaurantQueries[i]);
@@ -64,8 +65,11 @@ public class DatabaseHelper {
         for (int i = 0; i < orderQueries.length; i++) {
             db.execSQL(orderQueries[i]);
         }
-        for (int i = 0; i < ordersPageQuereies.length; i++) {
-            db.execSQL(ordersPageQuereies[i]);
+        for (int i = 0; i < ordersPageQueries.length; i++) {
+            db.execSQL(ordersPageQueries[i]);
+        }
+        for (int i = 0; i < foodQueries.length; i++) {
+            db.execSQL(foodQueries[i]);
         }
     }
 
@@ -81,11 +85,11 @@ public class DatabaseHelper {
         return INSTANCE;
     }
 
-    public void insertOrder(String restaurantName, String address, String instructions, int total) {
+    public void insertOrder(String restaurantName, String address, String instructions, int total, String date, String time) {
         db = context.openOrCreateDatabase("db", android.content.Context.MODE_PRIVATE, null);
         String baseQuery = String.format(
-                "INSERT INTO Orders (restaurant, address, instructions) VALUES ('%s','%s','%s', %d);",
-                restaurantName, address, instructions, total);
+                "INSERT INTO Orders (restaurant, address, instructions, date, time) VALUES ('%s','%s','%s', %d, '%s','%s');",
+                restaurantName, address, instructions, total, date, time);
         db.execSQL(baseQuery);
         Toast.makeText(context, "Order placed", Toast.LENGTH_LONG).show();
     }
@@ -109,7 +113,9 @@ public class DatabaseHelper {
                 @SuppressLint("Range") String address = query.getString(query.getColumnIndex("address"));
                 @SuppressLint("Range") String instructions = query.getString(query.getColumnIndex("instructions"));
                 @SuppressLint("Range") String total = query.getString(query.getColumnIndex("total"));
-                lst.add(new Order(Integer.parseInt(id), restaurant, address, instructions, Integer.parseInt(total)));
+                @SuppressLint("Range") String date = query.getString(query.getColumnIndex("date"));
+                @SuppressLint("Range") String time = query.getString(query.getColumnIndex("time"));
+                lst.add(new Order(Integer.parseInt(id), restaurant, address, instructions, Integer.parseInt(total), date, time));
             }
         } finally {
             query.close();
@@ -192,7 +198,9 @@ public class DatabaseHelper {
                 @SuppressLint("Range") String address = query.getString(query.getColumnIndex("address"));
                 @SuppressLint("Range") String instructions = query.getString(query.getColumnIndex("instructions"));
                 @SuppressLint("Range") String total = query.getString(query.getColumnIndex("total"));
-                lst.add(new Order(Integer.parseInt(id), restaurant, address, instructions, Integer.parseInt(total)));
+                @SuppressLint("Range") String date = query.getString(query.getColumnIndex("date"));
+                @SuppressLint("Range") String time = query.getString(query.getColumnIndex("time"));
+                lst.add(new Order(Integer.parseInt(id), restaurant, address, instructions, Integer.parseInt(total), date, time));
             }
         } finally {
             query.close();
