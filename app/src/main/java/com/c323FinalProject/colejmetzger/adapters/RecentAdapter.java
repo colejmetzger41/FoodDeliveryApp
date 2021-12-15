@@ -63,20 +63,20 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
             public void onClick(View view) {
                 MainActivity activityClass = (MainActivity) context;
 
-                Bundle bundle = new Bundle();
-                bundle.putString("restaurantId", data[holder.getAdapterPosition()].getName());
+//                Bundle bundle = new Bundle();
+//                bundle.putString("restaurantId", data[holder.getAdapterPosition()].getName());
 
-                RestaurantImages imagesFrag = new RestaurantImages();
-                RestaurantFragment restaurantFragment = new RestaurantFragment();
-                imagesFrag.setArguments(bundle);
-                restaurantFragment.setArguments(bundle);
+                RestaurantImages imagesFrag = new RestaurantImages(data[holder.getAdapterPosition()].getName());
+                RestaurantFragment restaurantFragment = new RestaurantFragment(data[holder.getAdapterPosition()].getName());
+//                imagesFrag.setArguments(bundle);
+//                restaurantFragment.setArguments(bundle);
 
                 activityClass.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.topView, imagesFrag, "restaurant_picture")
                         .commit();
 
                 activityClass.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.bottomView, imagesFrag, "restaurant")
+                        .replace(R.id.bottomView, restaurantFragment, "restaurant")
                         .commit();
             }
         });
