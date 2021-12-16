@@ -59,6 +59,7 @@ public class RecentOrdersFragment extends Fragment {
     }
 
     private void getOrderListAndSort() {
+        List<Order> orderListTemp = new ArrayList<>();
         Order[] ordersWithoutItems = databaseHelper.getOrders();
         for (int i = 0; i < ordersWithoutItems.length; i++) {
             int orderID = ordersWithoutItems[i].getId();
@@ -69,15 +70,20 @@ public class RecentOrdersFragment extends Fragment {
             int total = ordersWithoutItems[i].getTotal();
             String date = ordersWithoutItems[i].getDate();
             String time = ordersWithoutItems[i].getTime();
-            orderList.add(new Order(orderID, restaurant, address, instructions, orderItems, total, date, time));
+            orderListTemp.add(new Order(orderID, restaurant, address, instructions, orderItems, total, date, time));
         }
 
         //Sort ordersList
-        Collections.sort(orderList, new Comparator<Order>() {
+        Collections.sort(orderListTemp, new Comparator<Order>() {
             @Override
             public int compare(Order order, Order t1) {
                 return t1.getDateDate().compareTo(order.getDateDate());
             }
         });
+
+        //Only add the 5 most recent orders to new list
+        for (int i = 0; i < 5; i++) {
+            orderList.add(orderListTemp.get(i));
+        }
     }
 }

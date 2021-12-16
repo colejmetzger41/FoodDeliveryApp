@@ -9,10 +9,11 @@
         android:id="@+id/textViewFoodItemsRecentOrders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="TextView"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.34"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +21,7 @@
         android:id="@+id/textViewOrderedFromRecentOrders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="10dp"
         android:text="Ordered from:"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textViewFoodItemsRecentOrders"
@@ -30,7 +31,7 @@
         android:id="@+id/textViewPriceRecentOrders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="10dp"
         android:text="Price:"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textViewOrderedFromRecentOrders"
@@ -40,39 +41,37 @@
         android:id="@+id/textViewDateRecentOrders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="10dp"
         android:text="Date:"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textViewPriceRecentOrders"
+        app:layout_constraintStart_toStartOf="@+id/textViewPriceRecentOrders"
         app:layout_constraintTop_toBottomOf="@+id/textViewPriceRecentOrders" />
 
     <TextView
         android:id="@+id/textViewTimeRecentOrders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="116dp"
+        android:layout_marginTop="10dp"
         android:text="Time:"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewDateRecentOrders"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewDateRecentOrders"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="@+id/textViewDateRecentOrders"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDateRecentOrders" />
 
     <TextView
         android:id="@+id/textViewAddressRecentOrders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="10dp"
         android:text="Address:"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textViewDateRecentOrders"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDateRecentOrders" />
+        app:layout_constraintStart_toStartOf="@+id/textViewTimeRecentOrders"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTimeRecentOrders" />
 
     <Button
         android:id="@+id/buttonOrderAgainRecentOrders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="16dp"
         android:text="Order Again"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
