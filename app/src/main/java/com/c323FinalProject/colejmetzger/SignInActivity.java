@@ -1,18 +1,29 @@
 package com.c323FinalProject.colejmetzger;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.c323FinalProject.colejmetzger.utilities.DatabaseHelper;
 import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -21,17 +32,23 @@ public class SignInActivity extends AppCompatActivity {
     EditText et_name;
     EditText et_email;
     CircleImageView circleImageView;
+    AlertDialog dialog;
 
     //Database Helper for setup
     DatabaseHelper databaseHelper;
 
+    SharedPreferences sharedPref;
+
     //On activity result code
     int SELECT_PICTURE = 200;
+    int REQUEST_IMAGE_CAPTURE = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
         //Get views
         et_name = findViewById(R.id.editTextTextPersonName);
@@ -46,17 +63,38 @@ public class SignInActivity extends AppCompatActivity {
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageSelector();
+                AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
+                builder.setTitle("Choose Option");
+                final View customLayout = getLayoutInflater().inflate(R.layout.custom_alert_dialog_layout, null);
+                builder.setView(customLayout);
+
+                Button galleryButton = customLayout.findViewById(R.id.buttonChooseFromGallery);
+                Button cameraButton = customLayout.findViewById(R.id.buttonTakeOnCamera);
+
+                galleryButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        imageSelector();
+                    }
+                });
+
+                cameraButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        takeWithCamera();
+                    }
+                });
+
+                dialog = builder.create();
+                dialog.show();
             }
         });
-
-        //Check if user is signed in
-        //checkSignIn();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        //Check if user has signed in
         checkSignIn();
     }
 
@@ -76,7 +114,8 @@ public class SignInActivity extends AppCompatActivity {
             editor.putBoolean("ISDATAPOPULATED", true);
         }
 
-        editor.apply();
+        //editor.apply();
+        editor.commit();
     }
 
     private void imageSelector() {
@@ -85,6 +124,15 @@ public class SignInActivity extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
 
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+    }
+
+    private void takeWithCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        } catch (ActivityNotFoundException e) {
+            // display error state to the user
+        }
     }
 
     /** Most of code gotten from https://www.geeksforgeeks.org/how-to-select-an-image-from-gallery-in-android/
@@ -103,15 +151,32 @@ public class SignInActivity extends AppCompatActivity {
                 if (null != selectedImageUri) {
                     // update the preview image in the layout
                     Picasso.get().load(selectedImageUri).resize(circleImageView.getWidth(), circleImageView.getHeight()).centerInside().into(circleImageView);
-                    //circleImageView.setImageURI(selectedImageUri);
+                    convertToBase64(selectedImageUri);
                 }
             }
+            else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                circleImageView.setImageBitmap(imageBitmap);
+            }
+            dialog.cancel();
         }
     }
 
-    private void checkSignIn() {
+    private void convertToBase64(Uri selectedImageUri) {
+        Bitmap realImage = BitmapFactory.decodeFile(String.valueOf(selectedImageUri));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        realImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
 
+        String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("IMAGEDATA", encodedImage);
+        editor.commit();
+    }
+
+    private void checkSignIn() {
         boolean isSignedUp = sharedPref.getBoolean("ISSIGNEDUP", false);
         boolean isLoggedIn = sharedPref.getBoolean("ISLOGGEDIN", false);
 
@@ -126,7 +191,6 @@ public class SignInActivity extends AppCompatActivity {
 
 
     public void signInButton(View view) {
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
         boolean isSignedUp = sharedPref.getBoolean("ISSIGNEDUP", false);
@@ -161,6 +225,7 @@ public class SignInActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please input data for all fields.", Toast.LENGTH_SHORT).show();
             }
             else {
+                editor.putString(newUserName, "NAME");
                 editor.putString("NAME", newUserName);
                 editor.putString("EMAIL", newUserEmail);
                 editor.putBoolean("ISSIGNEDUP", true);
@@ -171,6 +236,6 @@ public class SignInActivity extends AppCompatActivity {
             }
         }
 
-        editor.apply();
+        editor.commit();
     }
 }

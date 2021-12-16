@@ -7,10 +7,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.ClipData;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.c323FinalProject.colejmetzger.fragments.CalendarFragment;
 import com.c323FinalProject.colejmetzger.fragments.HomeFragment;
@@ -58,7 +69,33 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.burger);
     }
 
+    private Bitmap getBitmapProfile() {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        String previouslyEncodedImage = sharedPref.getString("IMAGEDATA", "image not found");
+
+        Bitmap bitmap = null;
+        if( !previouslyEncodedImage.equalsIgnoreCase("") ){
+            byte[] b = Base64.decode(previouslyEncodedImage, Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
+        }
+        return bitmap;
+    }
+
     private void setupDrawerContent(NavigationView navigationView) {
+        //Set up profile with image and info
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        Menu menu = navigationView.getMenu();
+        MenuItem profileItem = (MenuItem) menu.getItem(0);
+        Menu profileMenu = profileItem.getSubMenu();
+        MenuItem menu_image = profileMenu.findItem(R.id.menu_image);
+        MenuItem menu_name = profileMenu.findItem(R.id.menu_name);
+        MenuItem menu_email = profileMenu.findItem(R.id.menu_email);
+
+        //Drawable drawable = new BitmapDrawable(getResources(), getBitmapProfile());
+        //menu_image.setIcon(drawable);
+        menu_name.setTitle(sharedPref.getString("NAME", "name not found"));
+        menu_email.setTitle(sharedPref.getString("EMAIL", "email not found"));
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
