@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.c323FinalProject.colejmetzger.R;
+import com.c323FinalProject.colejmetzger.types.Food;
 import com.c323FinalProject.colejmetzger.types.Order;
 import com.c323FinalProject.colejmetzger.types.OrderItem;
 import com.c323FinalProject.colejmetzger.types.Restaurant;
@@ -244,5 +245,23 @@ public class DatabaseHelper {
         Toast.makeText(context, "Couldn't restaurant by name", Toast.LENGTH_LONG).show();
 
         return null;
+    }
+
+    public Food[] getFood() {
+        Cursor query = db.query("Foods", null, null, null, null, null, null);
+        ArrayList<Food> lst = new ArrayList<Food>();
+
+        try {
+            while(query.moveToNext()) {
+                @SuppressLint("Range") String id = query.getString(query.getColumnIndex("id"));
+                @SuppressLint("Range") String name = query.getString(query.getColumnIndex("name"));
+                @SuppressLint("Range") String price = query.getString(query.getColumnIndex("price"));
+                lst.add(new Food(Integer.parseInt(id), Integer.parseInt(price), name));
+            }
+        } finally {
+            query.close();
+        }
+
+        return lst.toArray(new Food[0]);
     }
 }
