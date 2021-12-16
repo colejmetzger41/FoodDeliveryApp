@@ -1,6 +1,7 @@
 package com.c323FinalProject.colejmetzger.adapters;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +11,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.c323FinalProject.colejmetzger.fragments.OrderFragment;
 import com.c323FinalProject.colejmetzger.types.Order;
 import com.c323FinalProject.colejmetzger.R;
+import com.c323FinalProject.colejmetzger.types.OrderItem;
+import com.c323FinalProject.colejmetzger.utilities.DatabaseHelper;
 
 import java.util.List;
 
 public class RecentOrdersAdapter extends RecyclerView.Adapter<RecentOrdersAdapter.ViewHolder> {
 
     private Context context;
+    private List<Order> orderList;
+    private DatabaseHelper databaseHelper;
 
     public RecentOrdersAdapter(Context context, List<Order> orderList) {
-
+        this.context = context;
+        this.orderList = orderList;
+        this.databaseHelper = new DatabaseHelper(context);
     }
 
     @NonNull
@@ -33,20 +41,42 @@ public class RecentOrdersAdapter extends RecyclerView.Adapter<RecentOrdersAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //Get current order
+        Order currentOrder = orderList.get(position);
 
+        //Get all order items and format it into a string
+        OrderItem[] orderItems = currentOrder.getItems();
+        String orderItemsString = "";
+        for (int i = 0; i < orderItems.length; i++) {
+            orderItemsString += orderItems[i].getFoodName() + "               Quantity: " + orderItems[i].getQuantity();
+            orderItemsString += "\n";
+        }
+
+        //Set up all the data into the text views
+        holder.tv_foodItems.setText(orderItemsString);
+        holder.tv_orderedFrom.setText(holder.tv_orderedFrom.getText() + " " + currentOrder.getRestaurant());
+        holder.tv_price.setText(holder.tv_price.getText() + " " + currentOrder.getTotal());
+        holder.tv_date.setText(holder.tv_date.getText() + " " + currentOrder.getDate());
+        holder.tv_time.setText(holder.tv_time.getText() + " " + currentOrder.getTime());
+        holder.tv_address.setText(holder.tv_address.getText() + " " + currentOrder.getAddress());
 
         //Set order again button listener
         holder.button_orderAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                databaseHelper.insertOrder(currentOrder.getRestaurant(), currentOrder.getAddress(), currentOrder.getInstructions(), currentOrder.getTotal(), currentOrder.getDate(), currentOrder.getTime());
+                //FINISH THIS WITH FRAGMENT
+                //OrderFragment orderFragment = new OrderFragment();
 
+
+                //////////////////////FINSIH////////////////////////
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return orderList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

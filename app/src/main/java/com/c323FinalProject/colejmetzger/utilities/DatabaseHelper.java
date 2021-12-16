@@ -88,7 +88,7 @@ public class DatabaseHelper {
     public void insertOrder(String restaurantName, String address, String instructions, int total, String date, String time) {
         db = context.openOrCreateDatabase("db", android.content.Context.MODE_PRIVATE, null);
         String baseQuery = String.format(
-                "INSERT INTO Orders (restaurant, address, instructions, date, time) VALUES ('%s','%s','%s', %d, '%s','%s');",
+                "INSERT INTO Orders (restaurant, address, instructions, total, date, time) VALUES ('%s','%s','%s', %d, '%s','%s');",
                 restaurantName, address, instructions, total, date, time);
         db.execSQL(baseQuery);
         Toast.makeText(context, "Order placed", Toast.LENGTH_LONG).show();

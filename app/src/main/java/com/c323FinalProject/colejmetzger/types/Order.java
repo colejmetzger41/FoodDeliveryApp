@@ -1,5 +1,9 @@
 package com.c323FinalProject.colejmetzger.types;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Order {
     int id; String restaurant, instructions, address; OrderItem[] items; int total;
     String date, time;
@@ -89,5 +93,16 @@ public class Order {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Date getDateDate() {
+        SimpleDateFormat ft = new SimpleDateFormat("MM/dd/yyyy kk:mm");
+        Date date = null;
+        try {
+            date = new Date(String.valueOf(ft.parse(getDate() + " " + getTime())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }
