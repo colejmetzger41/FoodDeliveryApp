@@ -51,7 +51,18 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         //Check if user is signed in
+        //checkSignIn();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         checkSignIn();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void databasePopulationAndSetup() {
