@@ -3,15 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/activity_main.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/activity_maps.xml" value="0.1796875" />
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/activity_sign_in.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/fragment_all.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/fragment_calendar.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/fragment_home.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/fragment_maps.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/fragment_order.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/fragment_recent_orders.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/fragment_recents.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/fragment_sign_in.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/item_home.xml" value="0.23802083333333332" />
+        <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/item_home_all.xml" value="0.23802083333333332" />
+        <entry key="..\:/Users/colej/OneDrive/Documents/2021-2022_SchoolYear/AppDevelopment/FinalProject/app/src/main/res/layout/toolbar.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/food_item.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_all.xml" value="0.11203703703703703" />

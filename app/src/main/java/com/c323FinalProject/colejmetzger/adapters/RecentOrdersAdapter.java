@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.c323FinalProject.colejmetzger.MainActivity;
 import com.c323FinalProject.colejmetzger.fragments.OrderFragment;
 import com.c323FinalProject.colejmetzger.types.Order;
 import com.c323FinalProject.colejmetzger.R;
@@ -65,11 +66,12 @@ public class RecentOrdersAdapter extends RecyclerView.Adapter<RecentOrdersAdapte
             @Override
             public void onClick(View view) {
                 databaseHelper.insertOrder(currentOrder.getRestaurant(), currentOrder.getAddress(), currentOrder.getInstructions(), currentOrder.getTotal(), currentOrder.getDate(), currentOrder.getTime());
-                //FINISH THIS WITH FRAGMENT
-                //OrderFragment orderFragment = new OrderFragment();
+                MainActivity activityClass = (MainActivity) context;
+                OrderFragment orderFragment = new OrderFragment(currentOrder.getId());
 
-
-                //////////////////////FINSIH////////////////////////
+                activityClass.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.flContent, orderFragment, "order")
+                        .commit();
             }
         });
     }

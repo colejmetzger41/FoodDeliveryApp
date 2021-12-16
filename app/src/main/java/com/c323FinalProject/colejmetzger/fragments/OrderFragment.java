@@ -24,12 +24,13 @@ import java.util.Date;
 
 public class OrderFragment extends Fragment {
 
-    int orderId = 6; // temp hardcoded, just getting it running so you can do maps
+    int orderId; // = 6; temp hardcoded, just getting it running so you can do maps
     Order order;
     OrderItem[] orderItems;
 
-    public OrderFragment() {
+    public OrderFragment(int orderId) {
         // Required empty public constructor
+        this.orderId = orderId;
     }
 
 
