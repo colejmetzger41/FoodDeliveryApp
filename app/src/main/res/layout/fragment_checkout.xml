@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragments.CheckoutFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="66dp" />
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/checkout_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
+    <EditText
+        android:id="@+id/address_checkout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="delivery address...."
+        android:inputType="textPersonName" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
+    <EditText
+        android:id="@+id/instructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="special instructions..."
+        android:inputType="textPersonName" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="101dp" />
+
+    <Button
+        android:id="@+id/modify_order_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="modify order" />
+
+    <Button
+        android:id="@+id/order_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="place order" />
+</LinearLayout>

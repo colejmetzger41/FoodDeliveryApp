@@ -33,15 +33,18 @@ public class RestaurantOrdersAdapter extends RecyclerView.Adapter<RestaurantOrde
     Context context;
     Food[] data;
     public int[] counts;
-    int[] totals;
 
     public RestaurantOrdersAdapter(Context context, Food[] orders) {
         this.context = context;
         this.data = orders;
-        this.counts = new int[orders.length];
-        this.totals = new int[orders.length];
+        this.counts = new int[data.length];
         Arrays.fill(counts, 0);
-        Arrays.fill(totals, 0);
+    }
+
+    public RestaurantOrdersAdapter(Context context, Food[] orders, int[] counts) {
+        this.context = context;
+        this.data = orders;
+        this.counts = counts;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

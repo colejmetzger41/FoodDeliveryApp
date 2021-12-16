@@ -29,11 +29,18 @@ public class RestaurantFragment extends Fragment {
     Food[] foods;
     RecyclerView recyclerView;
     RestaurantOrdersAdapter adapter;
+    int [] counts;
 
 
     public RestaurantFragment(String name) { ;
         this.restaurant = getRestaurant(name);
         getFood();
+    }
+
+    public RestaurantFragment(String name, int[] counts, Food[] foods) { ;
+        this.restaurant = getRestaurant(name);
+        this.counts = counts;
+        this.foods = foods;
     }
 
     private Restaurant getRestaurant(String name) {
@@ -60,6 +67,8 @@ public class RestaurantFragment extends Fragment {
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // get foods that arent empty
                 int[] oldCounts = adapter.counts;
                 ArrayList addedFoods = new ArrayList<Food>();
                 ArrayList counts = new ArrayList<Integer>();
@@ -70,11 +79,15 @@ public class RestaurantFragment extends Fragment {
                         counts.add(oldCounts[i]);
                     }
                 }
-
                 int[] arr = counts.stream().mapToInt(i -> (int) i).toArray();
 
 
-                CheckoutFragment checkoutFragment = new CheckoutFragment((Food[]) addedFoods.toArray(new Food[0]), arr);
+                // go to checkout fragment
+                CheckoutFragment checkoutFragment = new CheckoutFragment(
+                        (Food[]) addedFoods.toArray(new Food[0]),
+                        arr,
+                        restaurant
+                );
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.flContent, checkoutFragment, "checkout")
                         .commit();
@@ -84,9 +97,12 @@ public class RestaurantFragment extends Fragment {
 
         recyclerView = v.findViewById(R.id.restaurant_foods_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new RestaurantOrdersAdapter(getContext(), foods);
+        if (this.counts == null) {
+            adapter = new RestaurantOrdersAdapter(getContext(), foods);
+        } else {
+            adapter = new RestaurantOrdersAdapter(getContext(), foods, counts);
+        }
         recyclerView.setAdapter(adapter);
-
         return v;
     }
 }

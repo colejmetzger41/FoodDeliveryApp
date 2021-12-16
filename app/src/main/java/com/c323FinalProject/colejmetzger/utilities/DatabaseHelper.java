@@ -95,11 +95,11 @@ public class DatabaseHelper {
         Toast.makeText(context, "Order placed", Toast.LENGTH_LONG).show();
     }
 
-    public void insertOrderItem(int foodId, int quantity) {
+    public void insertOrderItem(String foodName, int quantity, int orderId) {
         db = context.openOrCreateDatabase("db", android.content.Context.MODE_PRIVATE, null);
         String baseQuery = String.format(
-                "INSERT INTO OrderItems (foodName, quantity) VALUES ('%s','%s');",
-                String.valueOf(foodId), String.valueOf(quantity));
+                "INSERT INTO OrderItems (foodName, quantity, orderId) VALUES ('%s','%s', '%d');",
+                foodName, String.valueOf(quantity), orderId);
         db.execSQL(baseQuery);
     }
 
@@ -263,5 +263,18 @@ public class DatabaseHelper {
         }
 
         return lst.toArray(new Food[0]);
+    }
+
+    public int getNextOrderId() {
+        Cursor query = db.query("Orders", null, null, null, null, null, null);
+        int count = 0;
+        try {
+            while(query.moveToNext()) {
+                count++;
+            }
+        } finally {
+            query.close();
+        }
+        return count++;
     }
 }
