@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.c323FinalProject.colejmetzger.R;
@@ -24,12 +25,11 @@ import java.util.Date;
 
 public class OrderFragment extends Fragment {
 
-    int orderId; // = 6; temp hardcoded, just getting it running so you can do maps
+    int orderId;
     Order order;
     OrderItem[] orderItems;
 
     public OrderFragment(int orderId) {
-        // Required empty public constructor
         this.orderId = orderId;
     }
 
@@ -50,7 +50,7 @@ public class OrderFragment extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_order, container, false);
 
-        TextView address, time, total; ViewGroup orderItems; Button trackOrder;
+        TextView address, time, total; Button trackOrder;
         address = v.findViewById(R.id.address_order);
         time = v.findViewById(R.id.date_time);
         total = v.findViewById(R.id.total_order);
@@ -60,7 +60,20 @@ public class OrderFragment extends Fragment {
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         time.setText(dateFormat.format(date));
-        total.setText(String.valueOf(order.getTotal()));
+        total.setText("Total: $" + String.valueOf(order.getTotal()));
+
+
+
+        LinearLayout group = v.findViewById(R.id.insert_point);
+        for( int i = 0; i < orderItems.length; i++ )
+        {
+            TextView textView = new TextView(getActivity());
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textView.setLayoutParams(p);
+            textView.setText(orderItems[i].getFoodName() + ", x"+ String.valueOf(orderItems[i].getQuantity()));
+            textView.setId(10+i);
+            group.addView(textView);
+        }
 
         trackOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,11 +89,6 @@ public class OrderFragment extends Fragment {
                         .commit();
             }
         });
-
-
-        // TODO: loop through items and do the following two lines to add food items to order display
-//        ViewGroup main = (ViewGroup) findViewById(R.id.insert_point);
-//        main.addView(view, 0);
 
         return v;
     }

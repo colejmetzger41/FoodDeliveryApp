@@ -28,9 +28,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.c323FinalProject.colejmetzger.R;
 import com.c323FinalProject.colejmetzger.adapters.RestaurantOrdersAdapter;
+import com.c323FinalProject.colejmetzger.services.NotificationService;
 import com.c323FinalProject.colejmetzger.types.Food;
 import com.c323FinalProject.colejmetzger.types.Restaurant;
 import com.c323FinalProject.colejmetzger.utilities.DatabaseHelper;
@@ -94,6 +96,7 @@ public class CheckoutFragment extends Fragment {
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 currentLocation = location;
+                myLocationManager.removeUpdates(this);
                 Log.d("asdf", "location changed" + String.valueOf(currentLocation.getLatitude()));
 
             }
@@ -178,12 +181,16 @@ public class CheckoutFragment extends Fragment {
 
                 int[] arr = counts.stream().mapToInt(i -> (int) i).toArray();
 
-                createOrder(
-                        (Food[]) addedFoods.toArray(new Food[0]),
-                        arr,
-                        address.toString(),
-                        instructions.toString()
-                );
+                try {
+                    createOrder(
+                            (Food[]) addedFoods.toArray(new Food[0]),
+                            arr,
+                            address.getText().toString(),
+                            instructions.getText().toString()
+                    );
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 // TODO: transition to OrderFragment with address to and from in constructor
 
@@ -200,7 +207,7 @@ public class CheckoutFragment extends Fragment {
         return v;
     }
 
-    public void createOrder(Food[] foods, int[] counts, String address, String instructions) {
+    public void createOrder(Food[] foods, int[] counts, String address, String instructions) throws IOException {
 
         // get next order id
         int orderId = DatabaseHelper.getInstance().getNextOrderId();
@@ -229,26 +236,78 @@ public class CheckoutFragment extends Fragment {
         );
 
 
-        Log.d("asdf", String.valueOf(currentLocation.getLatitude()));
+        // get dist to restaurant
+        Geocoder geocoder = new Geocoder(getContext());
+        List<Address> restaurantAddress = null;
+        List<Address> userAddress = null;
+
+        String addressName = address;
+        Log.d("asdf", addressName);
+        Log.d("asdf", address);
+        try {
+            restaurantAddress = geocoder.getFromLocationName(restaurant.getLocation(), 1);
+            userAddress = geocoder.getFromLocationName(addressName, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+            if (e.getMessage().equals("grpc failed") ){
+                Toast.makeText(getContext(), "Error getting location grpc failed", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        // rando number between
+        Random r = new Random();
+        int rand = r.nextInt(101-5) + 5;
 
 
-//        // get dist to restaurant
-//        Geocoder geocoder = new Geocoder(getContext());
-////        List<Address> userAddress = geocoder.getFromLocation(lat, long, 1);
-//        List<Address> restaurantAddress = null;
-//        try {
-//            restaurantAddress = geocoder.getFromLocationName(restaurant.getLocation(), 1);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        // rando nubmer betweeen
-//        Random r = new Random();
-//        int rand = r.nextInt(101-5) + 5;
+        try {
+            // if addresses were found
+            if (restaurantAddress != null && userAddress != null) {
+                // get lat and long of both and get distance
+                if (userAddress.get(0) != null && restaurantAddress.get(0)!=null) {
+                    Double distance = distanceBetweenCoords(
+                            userAddress.get(0).getLatitude(),
+                            restaurantAddress.get(0).getLatitude(),
+                            userAddress.get(0).getLongitude(),
+                            restaurantAddress.get(0).getLongitude()
+                    );
+
+                    Double deliveryTime  =  (distance /  100)  * rand;
+
+                    Intent alarmService = new Intent(getActivity(), NotificationService.class);
+                    alarmService.putExtra("time", 5.00);
+                    getContext().startService(alarmService);
+                }
 
 
 
+            } else {
+                Toast.makeText(getContext(), "Error getting location", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Error getting locationn", Toast.LENGTH_LONG).show();
+        }
+
+
+        Fragment orderFragment = new OrderFragment(orderId);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flContent, orderFragment, "order")
+                .commit();
     }
 
+    public static double distanceBetweenCoords(double lat1, double lat2, double lon1,
+                                  double lon2) {
+        final int R = 6371;
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
 
+        distance = Math.pow(distance, 2);
+
+        return Math.sqrt(distance);
+    }
 }

@@ -19,7 +19,7 @@
         <entry key="app/src/main/res/layout/fragment_checkout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.14895833333333333" />
-        <entry key="app/src/main/res/layout/fragment_order.xml" value="0.13489583333333333" />
+        <entry key="app/src/main/res/layout/fragment_order.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_recent_orders.xml" value="0.14895833333333333" />
         <entry key="app/src/main/res/layout/fragment_recents.xml" value="0.21" />
         <entry key="app/src/main/res/layout/fragment_restaurant.xml" value="0.4281437125748503" />

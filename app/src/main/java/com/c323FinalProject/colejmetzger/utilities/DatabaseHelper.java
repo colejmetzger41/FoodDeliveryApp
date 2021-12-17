@@ -98,7 +98,7 @@ public class DatabaseHelper {
     public void insertOrderItem(String foodName, int quantity, int orderId) {
         db = context.openOrCreateDatabase("db", android.content.Context.MODE_PRIVATE, null);
         String baseQuery = String.format(
-                "INSERT INTO OrderItems (foodName, quantity, orderId) VALUES ('%s','%s', '%d');",
+                "INSERT INTO OrderItems (foodName, quantity, orderId) VALUES ('%s','%s',%d);",
                 foodName, String.valueOf(quantity), orderId);
         db.execSQL(baseQuery);
     }
@@ -150,7 +150,7 @@ public class DatabaseHelper {
                 @SuppressLint("Range") String id = query.getString(query.getColumnIndex("id"));
                 @SuppressLint("Range") String foodName = query.getString(query.getColumnIndex("foodName"));
                 @SuppressLint("Range") String quantity = query.getString(query.getColumnIndex("quantity"));
-                @SuppressLint("Range") String orderId = query.getString(query.getColumnIndex("quantity"));
+                @SuppressLint("Range") String orderId = query.getString(query.getColumnIndex("orderId"));
                 lst.add(new OrderItem(Integer.parseInt(id), Integer.parseInt(orderId), foodName, Integer.parseInt(quantity)));
             }
         } finally {
@@ -267,7 +267,7 @@ public class DatabaseHelper {
 
     public int getNextOrderId() {
         Cursor query = db.query("Orders", null, null, null, null, null, null);
-        int count = 0;
+        int count = 1;
         try {
             while(query.moveToNext()) {
                 count++;
