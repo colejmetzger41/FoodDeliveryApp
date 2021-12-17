@@ -2,65 +2,88 @@ package com.c323FinalProject.colejmetzger.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.c323FinalProject.colejmetzger.CurrentDayDecorator;
 import com.c323FinalProject.colejmetzger.R;
+import com.c323FinalProject.colejmetzger.types.Order;
+import com.c323FinalProject.colejmetzger.utilities.DatabaseHelper;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CalendarFragment#newInstance} factory method to
+ * Use the {@link CalendarFragment#} factory method to
  * create an instance of this fragment.
  */
 public class CalendarFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    View view;
+    MaterialCalendarView calendarView;
+    DatabaseHelper databaseHelper;
+    Order[] orders;
+    TextView tv_amountSpent;
 
     public CalendarFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CalendarFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CalendarFragment newInstance(String param1, String param2) {
-        CalendarFragment fragment = new CalendarFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar, container, false);
+        view =  inflater.inflate(R.layout.fragment_calendar, container, false);
+
+        calendarView = view.findViewById(R.id.calendarView);
+        tv_amountSpent = view.findViewById(R.id.textViewCalendarAmountSpent);
+
+        Calendar calendar = Calendar.getInstance();
+
+        List<Calendar> calendars = new ArrayList<>();
+
+        databaseHelper = new DatabaseHelper(getContext());
+        orders = databaseHelper.getOrders();
+        for (int i = 0; i < orders.length; i++) {
+            Date date = orders[i].getDateDate();
+            Calendar newCalendar = Calendar.getInstance();
+            newCalendar.set(date.getYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
+            calendars.add(newCalendar);
+        }
+
+        calendarView.addDecorator(new CurrentDayDecorator(getActivity()));
+        calendarView.setOnDateChangedListener((OnDateSelectedListener) new SelectedListenerHelper());
+
+        return view;
+    }
+
+    private class SelectedListenerHelper implements OnDateSelectedListener {
+        @Override
+        public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+            Calendar clickedDayCalendar = date.getCalendar();
+            //Toast.makeText(getContext(), clickedDayCalendar.toString(), Toast.LENGTH_SHORT).show();
+            Date clickedDate = clickedDayCalendar.getTime();
+            int total = 0;
+            for (int i = 0; i < orders.length; i++) {
+                Date orderTime = orders[i].getDateDate();
+                if (clickedDate.getYear() == orderTime.getYear() && clickedDate.getMonth() == orderTime.getMonth() && clickedDate.getDay() == orderTime.getDay()) {
+                    total += orders[i].getTotal();
+                }
+            }
+            tv_amountSpent.setText("Amount Spent: " + total);
+        }
     }
 }
