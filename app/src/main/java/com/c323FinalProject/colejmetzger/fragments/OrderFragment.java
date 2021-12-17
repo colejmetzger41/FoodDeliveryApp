@@ -63,7 +63,7 @@ public class OrderFragment extends Fragment {
         total.setText("Total: $" + String.valueOf(order.getTotal()));
 
 
-
+        // add foods to display
         LinearLayout group = v.findViewById(R.id.insert_point);
         for( int i = 0; i < orderItems.length; i++ )
         {
@@ -75,6 +75,7 @@ public class OrderFragment extends Fragment {
             group.addView(textView);
         }
 
+        // go to maps and send to and from info
         trackOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

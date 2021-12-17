@@ -58,6 +58,8 @@ public class RecentOrdersFragment extends Fragment {
         return view;
     }
 
+
+    // sort recent orders by date
     private void getOrderListAndSort() {
         List<Order> orderListTemp = new ArrayList<>();
         Order[] ordersWithoutItems = databaseHelper.getOrders();

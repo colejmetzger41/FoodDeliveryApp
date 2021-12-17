@@ -29,6 +29,8 @@ public class RestaurantImagesAdapter extends RecyclerView.Adapter<RestaurantImag
     String[] data;
     String type;
 
+
+    // get iamges for restauarant
     public RestaurantImagesAdapter(Context context, Restaurant restaurant) {
         this.context = context;
         this.data = new String[3];

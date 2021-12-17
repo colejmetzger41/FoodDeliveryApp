@@ -44,6 +44,7 @@ public class CalendarFragment extends Fragment {
     }
 
     @Override
+    // go through dates and get information from each order and add to date
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_calendar, container, false);
@@ -70,6 +71,7 @@ public class CalendarFragment extends Fragment {
         return view;
     }
 
+    // show totals when date is selected
     private class SelectedListenerHelper implements OnDateSelectedListener {
         @Override
         public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {

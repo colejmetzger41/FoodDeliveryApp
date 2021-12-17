@@ -74,6 +74,8 @@ public class RestaurantOrdersAdapter extends RecyclerView.Adapter<RestaurantOrde
         holder.name.setText(data[holder.getAdapterPosition()].getName()+", ");
         holder.price.setText("$" + String.valueOf(data[holder.getAdapterPosition()].getPrice()) + ", ");
         holder.quantity.setText(String.valueOf(counts[holder.getAdapterPosition()]));
+
+        // increase counter
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +84,8 @@ public class RestaurantOrdersAdapter extends RecyclerView.Adapter<RestaurantOrde
             }
         });
 
+
+        // decrease counter
         holder.subtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

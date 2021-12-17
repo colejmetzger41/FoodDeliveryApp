@@ -61,9 +61,11 @@ public class RestaurantFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        //
         View v = inflater.inflate(R.layout.fragment_restaurant, container, false);
         Button checkout = v.findViewById(R.id.checkout_button);
+
+        // on checkout send data to checkout fragment
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +97,7 @@ public class RestaurantFragment extends Fragment {
         });
 
 
+        // depending on wether or not the user returning from checkout or is starting here, use different adapter constructor
         recyclerView = v.findViewById(R.id.restaurant_foods_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         if (this.counts == null) {

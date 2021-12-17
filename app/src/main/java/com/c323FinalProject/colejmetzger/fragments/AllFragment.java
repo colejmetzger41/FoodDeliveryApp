@@ -30,10 +30,7 @@ public class AllFragment extends Fragment {
     private void getAll() {
         DatabaseHelper db = DatabaseHelper.getInstance();
         all = db.getRestaurants();
-
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

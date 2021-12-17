@@ -130,7 +130,7 @@ public class CheckoutFragment extends Fragment {
         address = v.findViewById(R.id.address_checkout);
         instructions = v.findViewById(R.id.instructions);
 
-
+        // send to rpevious frag with relavent foods
         modifyOrder = v.findViewById(R.id.modify_order_button);
         modifyOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,7 +166,6 @@ public class CheckoutFragment extends Fragment {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // get foods that aren't null
                 int[] oldCounts = adapter.counts;
                 ArrayList addedFoods = new ArrayList<Food>();
@@ -178,9 +177,9 @@ public class CheckoutFragment extends Fragment {
                         counts.add(oldCounts[i]);
                     }
                 }
-
                 int[] arr = counts.stream().mapToInt(i -> (int) i).toArray();
 
+                // add order to db
                 try {
                     createOrder(
                             (Food[]) addedFoods.toArray(new Food[0]),
@@ -191,10 +190,6 @@ public class CheckoutFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                // TODO: transition to OrderFragment with address to and from in constructor
-
-
             }
         });
 
@@ -222,9 +217,10 @@ public class CheckoutFragment extends Fragment {
             total += foods[i].getPrice() * counts[i];
         }
         Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy kk:mm");
         String dateTime = dateFormat.format(date);
         String[] splitTime = dateTime.split(" ");
+
         // add order to db
         DatabaseHelper.getInstance().insertOrder(
                 restaurant.getName(),
